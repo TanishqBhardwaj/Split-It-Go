@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewResult;
     private String API_KEY = "b8f745c2d43033fd65ce3af63180c3c3";
+    JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +24,48 @@ public class MainActivity extends AppCompatActivity {
         textViewResult = findViewById(R.id.text_view_result);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/")
+                .baseUrl("https://eae4e227.ngrok.io/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<PostMovie> call = jsonPlaceHolderApi.getPostMovies(3,"movie",
-                "popular", API_KEY);
+        getPostMovies();
+        createPost();
+    }
+
+    public void getPostMovies() {
+//        Call<PostMovie> call = jsonPlaceHolderApi.getPostMovies(3,"movie",
+//                "popular", API_KEY);
+//        call.enqueue(new Callback<PostMovie>() {
+//            @Override
+//            public void onResponse(Call<PostMovie> call, Response<PostMovie> response) {
+//                if(!response.isSuccessful()) {
+//                    textViewResult.setText("Code: " + response.code());
+//                    return;
+//                }
+//
+//                PostMovie posts = response.body();
+//                List<PostMovie.PostMovies> postMoviesList = posts.getResults();
+//                for(PostMovie.PostMovies post: postMoviesList) {
+//                    String content = "";
+//
+//                    content += "Popularity: " + post.getPopularity() + "\n";
+//                    content += "Title: " + post.getTitle() + "\n";
+//                    content += "Release-Date: " + post.getDate() + "\n\n";
+//
+//                    textViewResult.append(content);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PostMovie> call, Throwable t) {
+//                textViewResult.setText(t.getMessage());
+//            }
+//        });
+
+
+        Call<PostMovie> call = jsonPlaceHolderApi.getPostMovies();
         call.enqueue(new Callback<PostMovie>() {
             @Override
             public void onResponse(Call<PostMovie> call, Response<PostMovie> response) {
@@ -38,15 +73,14 @@ public class MainActivity extends AppCompatActivity {
                     textViewResult.setText("Code: " + response.code());
                     return;
                 }
-
                 PostMovie posts = response.body();
                 List<PostMovie.PostMovies> postMoviesList = posts.getResults();
                 for(PostMovie.PostMovies post: postMoviesList) {
                     String content = "";
 
-                    content += "Popularity: " + post.getPopularity() + "\n";
-                    content += "Title: " + post.getTitle() + "\n";
-                    content += "Release-Date: " + post.getDate() + "\n\n";
+                    content += "Email: " + post.getEmail() + "\n";
+                    content += "Username: " + post.getUsername() + "\n\n";
+//                    content += "Release-Date: " + post.getDate() + "\n\n";
 
                     textViewResult.append(content);
                 }
@@ -58,4 +92,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void createPost() {
+//        PostMovie.PostMovies postMovies = new PostMovie.PostMovies(100.0, "BlackOps", "15-10-19");
+        PostMovie.PostMovies postMovies = new PostMovie.PostMovies("Tanishq", "tanishqbhardwaj.tb@gmail.com");
+        Call<PostMovie.PostMovies> call = jsonPlaceHolderApi.createPost(postMovies);
+        call.enqueue(new Callback<PostMovie.PostMovies>() {
+            @Override
+            public void onResponse(Call<PostMovie.PostMovies> call, Response<PostMovie.PostMovies> response) {
+                if(!response.isSuccessful()) {
+                    textViewResult.setText("Code: " + response.code());
+                    return;
+                }
+                PostMovie.PostMovies posts = response.body();
+
+                String content = "";
+                content += "Code: " + response.code() + "\n";
+                content += "UserName: " + posts.getUsername() + "\n";
+                content += "Email: " + posts.getEmail() + "\n\n";
+//                content += "Release-Date: " + posts.getDate() + "\n\n";
+
+                textViewResult.setText(content);
+            }
+
+            @Override
+            public void onFailure(Call<PostMovie.PostMovies> call, Throwable t) {
+                textViewResult.setText(t.getMessage());
+            }
+        });
+    }
+
 }

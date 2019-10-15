@@ -1,32 +1,56 @@
 package com.example.retrofitexample;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class PostMovie {
 
     private List<PostMovies> results;
 
-    public class PostMovies {
-        private double popularity;
+    public static class PostMovies {
+//        private Double popularity;
+//
+//        @SerializedName("original_title")
+//        private String title;
+//
+//        @SerializedName("release_date")
+//        private String date;
+//
+//        public Double getPopularity() {
+//            return popularity;
+//        }
+//
+//        public String getTitle() {
+//            return title;
+//        }
+//
+//        public String getDate() {
+//            return date;
+//        }
+//
+//        public PostMovies(Double popularity, String title, String date) {
+//            this.popularity = popularity;
+//            this.title = title;
+//            this.date = date;
+//        }
 
-        @SerializedName("original_title")
-        private String title;
 
-        @SerializedName("release_date")
-        private String date;
+//        private String url;
+        private String username;
+        private String email;
+//        private List<> groups;
 
-        public double getPopularity() {
-            return popularity;
+        public String getUsername() {
+            return username;
         }
 
-        public String getTitle() {
-            return title;
+        public String getEmail() {
+            return email;
         }
 
-        public String getDate() {
-            return date;
+        public PostMovies(String username, String email) {
+            this.username = username;
+            this.email = email;
         }
     }
 
