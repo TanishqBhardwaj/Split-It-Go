@@ -1,4 +1,4 @@
-package com.example.retrofitexample;
+package com.example.SplitItGo;
 
 import org.junit.Test;
 
