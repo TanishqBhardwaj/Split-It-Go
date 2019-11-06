@@ -14,10 +14,7 @@ public class PostMovie {
         private String email;
         private String password;
         private String phone_number;
-
-        public String getUsername() {
-            return username;
-        }
+        private String otp;
 
         public PostMovies(String username, String first_name, String last_name, String email, String password, String phone_number) {
             this.username = username;
@@ -31,6 +28,10 @@ public class PostMovie {
         public PostMovies(String username, String password) {
             this.username = username;
             this.password = password;
+        }
+
+        public PostMovies(String otp) {
+            this.otp = otp;
         }
     }
 

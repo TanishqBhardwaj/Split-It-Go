@@ -61,7 +61,7 @@ public class LoginFragment extends Fragment {
         mButtonBackLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_frame, new LoginSignUpFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginSignUpFragment()).commit();
             }
         });
         return view;

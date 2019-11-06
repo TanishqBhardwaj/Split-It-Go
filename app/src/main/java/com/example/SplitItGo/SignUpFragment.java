@@ -1,6 +1,7 @@
 package com.example.SplitItGo;
 
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import retrofit2.Response;
 
 public class SignUpFragment extends Fragment {
 
+    private String mUserId;
+
     private EditText mEditTextUsernameSignUp;
     private EditText mEditTextFirstNameSignUp;
     private EditText mEditTextLastNameSignUp;
@@ -23,8 +26,6 @@ public class SignUpFragment extends Fragment {
     private EditText mEditTextPasswordSignUp;
     private EditText mEditTextConfirmPasswordSignUp;
     private EditText mEditTextPhoneNumberSignUp;
-    Button mButtonBackSignUp;
-    Button mButtonDoneSignUp;
 
     private String editTextUsernameSignUpValue;
     private String editTextFirstNameSignUpValue;
@@ -34,11 +35,14 @@ public class SignUpFragment extends Fragment {
     private String editTextConfirmPasswordSignUpValue;
     private String editTextPhoneNumberSignUpValue;
 
-    JsonPlaceHolderApi jsonPlaceHolderApi;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Button mButtonBackSignUp;
+        Button mButtonDoneSignUp;
+
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         mEditTextUsernameSignUp = view.findViewById(R.id.editTextUsernameSignUp);
@@ -78,38 +82,44 @@ public class SignUpFragment extends Fragment {
         mButtonBackSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                    getFragmentManager().beginTransaction().replace(R.id.fragment_frame, new LoginSignUpFragment()).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginSignUpFragment()).commit();
             }
         });
         return view;
     }
 
-    public void signUpPost() {
+    private void signUpPost() {
         if(editTextPasswordSignUpValue.equals(editTextConfirmPasswordSignUpValue)) {
 
-            PostMovie.PostMovies postMovies = new PostMovie.PostMovies(editTextUsernameSignUpValue,editTextFirstNameSignUpValue,
-                    editTextLastNameSignUpValue, editTextEmailSignUpValue, editTextPasswordSignUpValue, editTextPhoneNumberSignUpValue);
+            PostMovie.PostMovies postMovies = new PostMovie.PostMovies(editTextUsernameSignUpValue, editTextFirstNameSignUpValue,
+                    editTextLastNameSignUpValue, editTextEmailSignUpValue, editTextPasswordSignUpValue,
+                    editTextPhoneNumberSignUpValue);
 
-            Call<PostMovie.PostMovies> call = jsonPlaceHolderApi.signUpPost(postMovies);
-            call.enqueue(new Callback<PostMovie.PostMovies>() {
+            Call<SignUpResponse> call = jsonPlaceHolderApi.signUpPost(postMovies);
+            call.enqueue(new Callback<SignUpResponse>() {
                 @Override
-                public void onResponse(Call<PostMovie.PostMovies> call, Response<PostMovie.PostMovies> response) {
+                public void onResponse(@NonNull Call<SignUpResponse> call,@NonNull Response<SignUpResponse> response) {
 
                     if(!response.isSuccessful()) {
                         Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
-                    PostMovie.PostMovies posts = response.body();
+                    SignUpResponse posts = response.body();
 
                     String content = "";
                     content += "Code: " + response.code() + "\n";
-                    content += "Username: " + posts.getUsername() + "\n";
+
                     Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
+                    if(response.code()!= 404) {
+                        mUserId = String.valueOf(posts.getUser_id());
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new OtpFragment(mUserId,
+                                editTextUsernameSignUpValue)).commit();
+                        Toast.makeText(getContext(), posts.getDetails(), Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<PostMovie.PostMovies> call, Throwable t) {
+                public void onFailure(Call<SignUpResponse> call, Throwable t) {
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -118,5 +128,4 @@ public class SignUpFragment extends Fragment {
             Toast.makeText(getContext(), "Passwords do not match.", Toast.LENGTH_LONG).show();
         }
     }
-
 }
