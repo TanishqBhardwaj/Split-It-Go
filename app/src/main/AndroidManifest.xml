@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".HomeActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Activity.GroupActivity"></activity>
+        <activity android:name=".Activity.HomeActivity" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
