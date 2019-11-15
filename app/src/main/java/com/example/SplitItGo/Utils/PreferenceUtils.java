@@ -37,6 +37,8 @@ public class PreferenceUtils{
             return pref.getString(KEY_USER_ID, null);
         }
 
+        public String getToken() { return pref.getString(TOKEN, null); }
+
         public void logoutUser(){
             pref.edit().clear().apply();
         }

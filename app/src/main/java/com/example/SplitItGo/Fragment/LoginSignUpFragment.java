@@ -27,9 +27,9 @@ public class LoginSignUpFragment extends Fragment {
         mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginFragment()).commit();
-//                Intent intent = new Intent(getContext(), HomeActivity.class);
-//                startActivity(intent);
+//                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginFragment()).commit();
+                Intent intent = new Intent(getContext(), HomeActivity.class);
+                startActivity(intent);
             }
         });
 

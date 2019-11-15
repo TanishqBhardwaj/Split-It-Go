@@ -11,6 +11,7 @@ import com.example.SplitItGo.Model.SignUpResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -28,6 +29,6 @@ public interface JsonPlaceHolderApi {
     @POST("validate/{id}/")
     Call<OtpResponse> otpVerification(@Path("id") String userId, @Body PostMovie.PostMovies postMovies);
 
-    @POST("profile/2/create-group/")
-    Call<GroupResponse> createGroup( @Body PostGroup postGroup);
+    @POST("profile/create-group/")
+    Call<GroupResponse> createGroup(@Body PostGroup postGroup, @Header("Authorization") String token);
 }

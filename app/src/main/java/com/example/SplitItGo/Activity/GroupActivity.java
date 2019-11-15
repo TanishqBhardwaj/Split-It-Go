@@ -20,7 +20,6 @@ import com.example.SplitItGo.Model.GetUsersResponse;
 import com.example.SplitItGo.Model.GroupItem;
 import com.example.SplitItGo.Model.GroupResponse;
 import com.example.SplitItGo.Model.PostGroup;
-import com.example.SplitItGo.Model.SignUpResponse;
 import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.PreferenceUtils;
 import com.example.SplitItGo.Utils.RetrofitInstance;
@@ -47,6 +46,7 @@ public class GroupActivity extends AppCompatActivity {
     PreferenceUtils pref;
     RecyclerView recyclerView;
     GroupMemberAdapter groupMemberAdapter;
+
 
 
     @Override
@@ -108,6 +108,7 @@ public class GroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 groupName = editText.getText().toString();
                 createGroup();
+                finish();
             }
         });
     }
@@ -139,12 +140,12 @@ public class GroupActivity extends AppCompatActivity {
                 String content = "";
                 content += "Code: " + response.code() + "\n";
 
-                ArrayList<GetUsersResponse.UserData> groupMemberList = new ArrayList<>(posts.getResults());
-                for(int i=0; i<groupMemberList.size(); i++) {
+                ArrayList<GetUsersResponse.UserData> allMemberList = new ArrayList<>(posts.getResults());
+                for(int i=0; i<allMemberList.size(); i++) {
 
-                    if(!groupMemberList.get(i).getUsername().equals("admin")) {
-                        if(!pref.getKeyUsername().equals(groupMemberList.get(i).getUsername())) {
-                            String url = groupMemberList.get(i).getUrl();
+                    if(!allMemberList.get(i).getUsername().equals("admin")) {
+                        if(!pref.getKeyUsername().equals(allMemberList.get(i).getUsername())) {
+                            String url = allMemberList.get(i).getUrl();
                             String user_id="";
                             int count=0;
                             for(int j=0; j<url.length(); j++) {
@@ -158,14 +159,7 @@ public class GroupActivity extends AppCompatActivity {
                                 }
                             }
                             Log.d("User_id", "onResponse:" + user_id);
-                            groupItemArrayList.add(new GroupItem(groupMemberList.get(i).getUsername(), R.drawable.ic_home, user_id));
-                            for(int k=0; k<selectedMemberList.size(); k++) {
-                                if(selectedMemberList.get(k).getmGroupMemberName().trim()
-                                        .equals(groupMemberList.get(i).getUsername().trim())) {
-                                    groupMemberUserId.add(Integer.parseInt(user_id));
-                                    break;
-                                }
-                            }
+                            groupItemArrayList.add(new GroupItem(allMemberList.get(i).getUsername(), R.drawable.ic_home, user_id));
                         }
                     }
                 }
@@ -189,11 +183,19 @@ public class GroupActivity extends AppCompatActivity {
 
         jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
 
-        PostGroup postGroup = new PostGroup(groupName, pref.getKeyUserId(), groupMemberUserId, "TRIP");
+        for(int i=0; i<groupItemArrayList.size(); i++) {
+            for(int j=0; j<selectedMemberList.size(); j++) {
+                if(selectedMemberList.get(j).getmGroupMemberName()
+                        .equals(groupItemArrayList.get(i).getmGroupMemberName())) {
+                    groupMemberUserId.add(Integer.parseInt(groupItemArrayList.get(i).getUser_id()));
+                    break;
+                }
+            }
+        }
 
-        Log.d(pref.getKeyUserId(), "USER_ID: ");
-        try {
-            Call<GroupResponse> call = jsonPlaceHolderApi.createGroup(postGroup);
+        PostGroup postGroup = new PostGroup(groupName, pref.getKeyUserId(), groupMemberUserId, "TRIP");
+            String token = "Bearer " + pref.getToken();
+            Call<GroupResponse> call = jsonPlaceHolderApi.createGroup(postGroup, token);
             call.enqueue(new Callback<GroupResponse>() {
                 @Override
                 public void onResponse(Call<GroupResponse> call, Response<GroupResponse> response) {
@@ -211,10 +213,5 @@ public class GroupActivity extends AppCompatActivity {
 
                 }
             });
-        }
-        catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
     }
 }

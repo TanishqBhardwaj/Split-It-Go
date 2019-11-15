@@ -2,10 +2,13 @@ package com.example.SplitItGo.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 
 import com.example.SplitItGo.Activity.GroupActivity;
 import com.example.SplitItGo.R;
@@ -21,6 +24,8 @@ public class GroupsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_groups, container, false);
         fab = view.findViewById(R.id.floatingActionButton2);
 
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,4 +36,5 @@ public class GroupsFragment extends Fragment {
 
         return view;
     }
+
 }

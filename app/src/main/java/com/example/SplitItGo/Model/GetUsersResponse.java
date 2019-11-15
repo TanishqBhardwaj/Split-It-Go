@@ -37,21 +37,6 @@ public class GetUsersResponse {
             return username;
         }
 
-        public String getFirst_name() {
-            return first_name;
-        }
-
-        public String getLast_name() {
-            return last_name;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getPhone_number() {
-            return phone_number;
-        }
     }
 
     public ArrayList<UserData> getResults() {
