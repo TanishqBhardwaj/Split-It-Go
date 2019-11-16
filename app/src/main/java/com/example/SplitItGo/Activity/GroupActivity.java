@@ -18,7 +18,7 @@ import com.example.SplitItGo.Adapter.GroupMemberAdapter;
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
 import com.example.SplitItGo.Model.GetUsersResponse;
 import com.example.SplitItGo.Model.GroupItem;
-import com.example.SplitItGo.Model.GroupResponse;
+import com.example.SplitItGo.Model.CreateGroupResponse;
 import com.example.SplitItGo.Model.PostGroup;
 import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.PreferenceUtils;
@@ -194,22 +194,22 @@ public class GroupActivity extends AppCompatActivity {
         }
 
         PostGroup postGroup = new PostGroup(groupName, pref.getKeyUserId(), groupMemberUserId, "TRIP");
-            String token = "Bearer " + pref.getToken();
-            Call<GroupResponse> call = jsonPlaceHolderApi.createGroup(postGroup, token);
-            call.enqueue(new Callback<GroupResponse>() {
+            String token = "JWT " + pref.getToken();
+            Call<CreateGroupResponse> call = jsonPlaceHolderApi.createGroup(postGroup, token);
+            call.enqueue(new Callback<CreateGroupResponse>() {
                 @Override
-                public void onResponse(Call<GroupResponse> call, Response<GroupResponse> response) {
+                public void onResponse(Call<CreateGroupResponse> call, Response<CreateGroupResponse> response) {
                     if(!response.isSuccessful()) {
                         Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
-                    GroupResponse posts = response.body();
+                    CreateGroupResponse posts = response.body();
                     String content = posts.getDetails();
                     Toast.makeText(GroupActivity.this, content, Toast.LENGTH_LONG).show();
                 }
 
                 @Override
-                public void onFailure(Call<GroupResponse> call, Throwable t) {
+                public void onFailure(Call<CreateGroupResponse> call, Throwable t) {
 
                 }
             });
