@@ -1,10 +1,12 @@
 package com.example.SplitItGo.Interface;
 
+import com.example.SplitItGo.Model.ExpensesResponse;
 import com.example.SplitItGo.Model.GetUsersResponse;
 import com.example.SplitItGo.Model.CreateGroupResponse;
 import com.example.SplitItGo.Model.GroupResponse;
 import com.example.SplitItGo.Model.LoginResponse;
 import com.example.SplitItGo.Model.OtpResponse;
+import com.example.SplitItGo.Model.PostExpense;
 import com.example.SplitItGo.Model.PostGroup;
 import com.example.SplitItGo.Model.PostMovie;
 import com.example.SplitItGo.Model.SignUpResponse;
@@ -21,7 +23,7 @@ import retrofit2.http.Path;
 public interface JsonPlaceHolderApi {
 
     @GET("users/")
-    Call<GetUsersResponse> getGroupMembers();
+    Call<GetUsersResponse> getGroupMembers(@Header("Authorization") String token);
 
     @POST("signup/")
     Call<SignUpResponse> signUpPost(@Body PostMovie.PostMovies postMovies);
@@ -37,4 +39,11 @@ public interface JsonPlaceHolderApi {
 
     @GET("profile/groups/")
     Call<List<GroupResponse>> getGroups(@Header("Authorization") String token);
+
+    @GET("profile/groups/{id}/expenses/")
+    Call<List<ExpensesResponse>> getExpenses(@Path("id") String groupId, @Header("Authorization") String token);
+
+    @POST("profile/groups/{id}/create-expense/")
+    Call<ExpensesResponse> createExpense(@Path("id") String groupId, @Header("Authorization") String token,
+                                         @Body PostExpense postExpense);
 }

@@ -1,5 +1,6 @@
 package com.example.SplitItGo.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,8 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.SplitItGo.Activity.DetailGroupActivity;
 import com.example.SplitItGo.Activity.GroupActivity;
 import com.example.SplitItGo.Adapter.AllGroupAdapter;
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
@@ -32,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GroupsFragment extends Fragment {
+public class GroupsFragment extends Fragment implements AllGroupAdapter.OnItemClickListener {
 
     private FloatingActionButton fabAdd;
     private FloatingActionButton fabAddGroup;
@@ -44,6 +48,8 @@ public class GroupsFragment extends Fragment {
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     private PreferenceUtils pref;
 
+    ProgressBar progressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,16 +59,18 @@ public class GroupsFragment extends Fragment {
         fabAdd = view.findViewById(R.id.fab_add);
         fabAddGroup = view.findViewById(R.id.fab_add_group);
         recyclerView = view.findViewById(R.id.recyclerViewGroup);
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+//        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         allGroupAdapter = new AllGroupAdapter(getContext(), allGroups);
         recyclerView.setAdapter(allGroupAdapter);
+        allGroupAdapter.setOnItemClickListener(GroupsFragment.this);
 
         initList();
-
-
-
         ViewAnimation.init(view.findViewById(R.id.fab_add_group));
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -101,30 +109,46 @@ public class GroupsFragment extends Fragment {
         call.enqueue(new Callback<List<GroupResponse>>() {
             @Override
             public void onResponse(Call<List<GroupResponse>> call, Response<List<GroupResponse>> response) {
-                if(!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
-                    return;
+                try {
+                    if(!response.isSuccessful()) {
+                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    List<GroupResponse> groupResponse = response.body();
+                    for(GroupResponse groupResponse1: groupResponse) {
+                        int id = groupResponse1.getId();
+                        String name = groupResponse1.getName();
+                        int admin = groupResponse1.getAdmin();
+                        ArrayList<Integer> users = groupResponse1.getUsers();
+                        String type = groupResponse1.getType();
+                        String created_at = groupResponse1.getCreated_at();
+                        Log.d(name, "onResponse: ");
+                        GroupResponse groupResponse2 = new GroupResponse(id, name, admin, users, type, created_at);
+                        allGroups.add(groupResponse2);
+                    }
+                    allGroupAdapter = new AllGroupAdapter(getContext(), allGroups);
+                    recyclerView.setAdapter(allGroupAdapter);
+                    progressBar.setVisibility(View.GONE);
+//                    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    allGroupAdapter.setOnItemClickListener(GroupsFragment.this);
                 }
-                List<GroupResponse> groupResponse = response.body();
-                for(GroupResponse groupResponse1: groupResponse) {
-                    int id = groupResponse1.getId();
-                    String name = groupResponse1.getName();
-                    int admin = groupResponse1.getAdmin();
-                    ArrayList<Integer> users = groupResponse1.getUsers();
-                    String type = groupResponse1.getType();
-                    String created_at = groupResponse1.getCreated_at();
-                    Log.d(name, "onResponse: ");
-                    GroupResponse groupResponse2 = new GroupResponse(id, name, admin, users, type, created_at);
-                    allGroups.add(groupResponse2);
+                catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
-                allGroupAdapter = new AllGroupAdapter(getContext(), allGroups);
-                recyclerView.setAdapter(allGroupAdapter);
             }
 
             @Override
             public void onFailure(Call<List<GroupResponse>> call, Throwable t) {
-
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        GroupResponse groupResponse = allGroups.get(position);
+        new DetailGroupActivity(groupResponse);
+        Intent intent = new Intent(getContext(), DetailGroupActivity.class);
+        startActivity(intent);
     }
 }

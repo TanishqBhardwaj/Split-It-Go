@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,12 +49,17 @@ public class GroupActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     GroupMemberAdapter groupMemberAdapter;
 
-
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
+
+        progressBar = findViewById(R.id.progressBarActivityGroup);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressBar.setVisibility(View.VISIBLE);
 
         pref = new PreferenceUtils(GroupActivity.this);
 
@@ -125,8 +132,8 @@ public class GroupActivity extends AppCompatActivity {
                 .build();
 
         jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
-
-        Call<GetUsersResponse> call = jsonPlaceHolderApi.getGroupMembers();
+        String token = "JWT " + pref.getToken();
+        Call<GetUsersResponse> call = jsonPlaceHolderApi.getGroupMembers(token);
         call.enqueue(new Callback<GetUsersResponse>() {
             @Override
             public void onResponse(Call<GetUsersResponse> call, Response<GetUsersResponse> response) {
@@ -163,6 +170,8 @@ public class GroupActivity extends AppCompatActivity {
                         }
                     }
                 }
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(GroupActivity.this, content, Toast.LENGTH_LONG).show();
             }
 
@@ -195,6 +204,7 @@ public class GroupActivity extends AppCompatActivity {
 
         PostGroup postGroup = new PostGroup(groupName, pref.getKeyUserId(), groupMemberUserId, "TRIP");
             String token = "JWT " + pref.getToken();
+        Log.d(token, "createGroup: ");
             Call<CreateGroupResponse> call = jsonPlaceHolderApi.createGroup(postGroup, token);
             call.enqueue(new Callback<CreateGroupResponse>() {
                 @Override
@@ -210,7 +220,7 @@ public class GroupActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<CreateGroupResponse> call, Throwable t) {
-
+                    Toast.makeText(GroupActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
     }

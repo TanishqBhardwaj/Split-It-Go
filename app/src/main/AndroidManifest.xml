@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Activity.GroupActivity"></activity>
+        <activity android:name=".Activity.AddExpenseActivity"></activity>
+        <activity android:name=".Activity.DetailGroupActivity" />
+        <activity android:name=".Activity.GroupActivity" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.SplashActivity">

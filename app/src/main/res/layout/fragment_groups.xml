@@ -1,5 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,10 +24,11 @@
         android:id="@+id/imageViewCurveGroups"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/rectangle"
         android:elevation="2dp"
         android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:src="@drawable/rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="68dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewGroup"
@@ -68,6 +68,28 @@
         app:layout_constraintBottom_toTopOf="@+id/fab_add"
         app:layout_constraintEnd_toEndOf="@+id/fab_add"
         app:layout_constraintStart_toStartOf="@+id/fab_add" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="#707070"
+        app:layout_constraintEnd_toEndOf="@+id/textViewGroupHeading"
+        app:layout_constraintStart_toStartOf="@+id/textViewGroupHeading"
+        app:layout_constraintTop_toBottomOf="@+id/textViewGroupHeading" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewGroup"
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

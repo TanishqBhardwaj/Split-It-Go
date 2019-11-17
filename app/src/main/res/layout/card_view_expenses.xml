@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/imageViewExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewTime"
+            app:srcCompat="@drawable/profile_image" />
+
+        <TextView
+            android:id="@+id/textViewExpenseDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Description"
+            android:textColor="#0E014F"
+            app:layout_constraintStart_toEndOf="@+id/imageViewExpense"
+            app:layout_constraintTop_toTopOf="@+id/imageViewExpense" />
+
+        <TextView
+            android:id="@+id/textViewExpenseMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="32dp"
+            android:text="TextView"
+            android:textColor="#0E014F"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewExpense"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewExpenseDescription"
+            app:layout_constraintTop_toTopOf="@+id/imageViewExpense" />
+
+        <TextView
+            android:id="@+id/textViewExpensePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Paid"
+            android:textColor="#A7A7A7"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewExpense"
+            app:layout_constraintStart_toEndOf="@+id/imageViewExpense" />
+
+        <ImageView
+            android:id="@+id/imageViewTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/rectangle_time" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="TextView"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewTime"
+            app:layout_constraintStart_toStartOf="@+id/imageViewTime"
+            app:layout_constraintTop_toTopOf="@+id/imageViewTime" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -10,18 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.SplitItGo.Model.GroupResponse;
 import com.example.SplitItGo.R;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class AllGroupAdapter extends RecyclerView.Adapter<AllGroupAdapter.ModelViewHolder> {
 
         Context context;
         ArrayList<GroupResponse> groupList;
+        OnItemClickListener mListener;
 
         public AllGroupAdapter(Context context, ArrayList<GroupResponse> groupItemArrayList) {
             this.context = context;
             groupList = groupItemArrayList;
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(int position);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            mListener = listener;
         }
 
         @NonNull
@@ -43,15 +50,27 @@ public class AllGroupAdapter extends RecyclerView.Adapter<AllGroupAdapter.ModelV
                 return groupList.size();
         }
 
-public class ModelViewHolder extends RecyclerView.ViewHolder {
+    public class ModelViewHolder extends RecyclerView.ViewHolder {
 
-    public ImageView imageView;
-    public TextView textView;
+        public ImageView imageView;
+        public TextView textView;
 
-    public ModelViewHolder(@NonNull View view) {
-        super(view);
-        imageView = view.findViewById(R.id.imageViewCardView);
-        textView = view.findViewById(R.id.textViewCardView);
+        public ModelViewHolder(@NonNull View view) {
+            super(view);
+            imageView = view.findViewById(R.id.imageViewCardView);
+            textView = view.findViewById(R.id.textViewCardView);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mListener != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+        }
     }
-}
 }
