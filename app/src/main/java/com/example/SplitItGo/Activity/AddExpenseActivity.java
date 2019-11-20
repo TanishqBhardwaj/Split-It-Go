@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
 import com.example.SplitItGo.Model.ExpensesResponse;
+import com.example.SplitItGo.Model.GroupResponse;
 import com.example.SplitItGo.Model.PostExpense;
 import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.PreferenceUtils;
@@ -26,23 +27,27 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     EditText editTextDescription;
     EditText editTextAmount;
+    EditText editTextBillName;
+
+    TextView textViewHeading;
 
     String description;
     String amount;
+    String billName;
 
     ImageView imageViewBackButton;
     TextView textViewSave;
     JsonPlaceHolderApi jsonPlaceHolderApi;
     PreferenceUtils pref;
 
-    static int id;
+    static GroupResponse groupResponse;
 
     public AddExpenseActivity() {
 
     }
 
-    public AddExpenseActivity(int id) {
-        this.id = id;
+    public AddExpenseActivity(GroupResponse groupResponse) {
+        this.groupResponse = groupResponse;
     }
 
     @Override
@@ -54,14 +59,19 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         editTextDescription = findViewById(R.id.editTextExpenseDescription);
         editTextAmount = findViewById(R.id.editTextExpenseAmount);
+        editTextBillName = findViewById(R.id.editTextExpenseBillName);
         imageViewBackButton = findViewById(R.id.imageViewBackButtonExpense);
         textViewSave = findViewById(R.id.textViewSaveExpense);
+        textViewHeading = findViewById(R.id.textViewExpenseHeading);
+
+        textViewHeading.setText(groupResponse.getName());
 
         textViewSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 description = editTextDescription.getText().toString();
                 amount = editTextAmount.getText().toString();
+                billName = editTextBillName.getText().toString();
                 createExpense();
                 finish();
             }
@@ -85,8 +95,9 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
         String token = "JWT " + pref.getToken();
-        PostExpense postExpense = new PostExpense(description, "fuck", String.valueOf(id), amount, pref.getKeyUserId());
-        Call<ExpensesResponse> call = jsonPlaceHolderApi.createExpense(String.valueOf(id), token, postExpense);
+        PostExpense postExpense = new PostExpense(billName, description, String.valueOf(groupResponse.getId()),
+                amount, pref.getKeyUserId());
+        Call<ExpensesResponse> call = jsonPlaceHolderApi.createExpense(String.valueOf(groupResponse.getId()), token, postExpense);
         call.enqueue(new Callback<ExpensesResponse>() {
             @Override
             public void onResponse(Call<ExpensesResponse> call, Response<ExpensesResponse> response) {

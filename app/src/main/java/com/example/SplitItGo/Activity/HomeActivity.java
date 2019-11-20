@@ -36,8 +36,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new HomeFragment()).commit();
         }
@@ -93,13 +91,16 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_bottom_home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new HomeFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
+                                new HomeFragment()).commit();
                         break;
                     case R.id.nav_bottom_groups:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new GroupsFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
+                                new GroupsFragment()).commit();
                         break;
                     case R.id.nav_bottom_activity:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new ActivityFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
+                                new ActivityFragment()).commit();
                         break;
                 }
                 return true;

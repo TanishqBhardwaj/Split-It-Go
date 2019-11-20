@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import com.example.SplitItGo.Activity.HomeActivity;
-import com.example.SplitItGo.Activity.MainActivity;
 import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.PreferenceUtils;
 
@@ -13,12 +11,10 @@ public class SplashActivity extends AppCompatActivity {
 
     PreferenceUtils pref;
     int delay = 0;
-    boolean flag = false;
 
     @Override
     protected void onStart() {
         super.onStart();
-        flag = true;
         delay=1000;
     }
 

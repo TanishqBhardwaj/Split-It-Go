@@ -11,6 +11,7 @@ import com.example.SplitItGo.Model.PostGroup;
 import com.example.SplitItGo.Model.PostMovie;
 import com.example.SplitItGo.Model.SignUpResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,4 +47,7 @@ public interface JsonPlaceHolderApi {
     @POST("profile/groups/{id}/create-expense/")
     Call<ExpensesResponse> createExpense(@Path("id") String groupId, @Header("Authorization") String token,
                                          @Body PostExpense postExpense);
+
+    @GET("profile/friendlist/")
+    Call<ArrayList<Integer>> getFriendList(@Header("Authorization") String token);
 }

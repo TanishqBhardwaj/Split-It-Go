@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.SplitItGo.Adapter.AllMemberAdapter;
+import com.example.SplitItGo.Adapter.ExpensesAdapter;
 import com.example.SplitItGo.Adapter.GroupMemberAdapter;
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
 import com.example.SplitItGo.Model.GetUsersResponse;
@@ -114,6 +115,7 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 groupName = editText.getText().toString();
+                new ExpensesAdapter(groupName);
                 createGroup();
                 finish();
             }

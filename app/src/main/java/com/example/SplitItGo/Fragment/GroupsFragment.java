@@ -61,8 +61,6 @@ public class GroupsFragment extends Fragment implements AllGroupAdapter.OnItemCl
         recyclerView = view.findViewById(R.id.recyclerViewGroup);
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
-//        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
@@ -122,14 +120,12 @@ public class GroupsFragment extends Fragment implements AllGroupAdapter.OnItemCl
                         ArrayList<Integer> users = groupResponse1.getUsers();
                         String type = groupResponse1.getType();
                         String created_at = groupResponse1.getCreated_at();
-                        Log.d(name, "onResponse: ");
                         GroupResponse groupResponse2 = new GroupResponse(id, name, admin, users, type, created_at);
                         allGroups.add(groupResponse2);
                     }
                     allGroupAdapter = new AllGroupAdapter(getContext(), allGroups);
                     recyclerView.setAdapter(allGroupAdapter);
                     progressBar.setVisibility(View.GONE);
-//                    getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     allGroupAdapter.setOnItemClickListener(GroupsFragment.this);
                 }
                 catch (NullPointerException e) {

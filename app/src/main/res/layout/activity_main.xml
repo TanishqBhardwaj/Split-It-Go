@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
 
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
         <FrameLayout
             android:id="@+id/fragment_frame_main"
             android:layout_width="match_parent"

@@ -68,7 +68,7 @@ public class OtpFragment extends Fragment {
         mButtonBackOtp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginSignUpFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new SignUpFragment()).commit();
             }
         });
         return view;

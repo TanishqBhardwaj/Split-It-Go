@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewTime"
@@ -28,33 +28,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
             android:text="Description"
             android:textColor="#0E014F"
+            app:layout_constraintBottom_toTopOf="@+id/textViewExpensePaid"
             app:layout_constraintStart_toEndOf="@+id/imageViewExpense"
-            app:layout_constraintTop_toTopOf="@+id/imageViewExpense" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewTime" />
 
         <TextView
             android:id="@+id/textViewExpenseMoney"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
             android:layout_marginEnd="32dp"
             android:text="TextView"
             android:textColor="#0E014F"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewExpense"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewExpenseDescription"
             app:layout_constraintTop_toTopOf="@+id/imageViewExpense" />
 
         <TextView
             android:id="@+id/textViewExpensePaid"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
             android:text="Paid"
             android:textColor="#A7A7A7"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewExpense"
-            app:layout_constraintStart_toEndOf="@+id/imageViewExpense" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewExpenseMoney"
+            app:layout_constraintStart_toEndOf="@+id/imageViewExpense"
+            app:layout_constraintTop_toBottomOf="@+id/textViewExpenseDescription" />
 
         <ImageView
             android:id="@+id/imageViewTime"
