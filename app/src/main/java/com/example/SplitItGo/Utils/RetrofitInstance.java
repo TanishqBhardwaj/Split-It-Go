@@ -12,7 +12,7 @@ public class RetrofitInstance {
 
     public static Retrofit getRetrofit(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://1b6c5872.ngrok.io/")
+                .baseUrl("https://c575d091.ngrok.io/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();

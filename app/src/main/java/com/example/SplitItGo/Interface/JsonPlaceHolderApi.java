@@ -50,4 +50,7 @@ public interface JsonPlaceHolderApi {
 
     @GET("profile/friendlist/")
     Call<ArrayList<Integer>> getFriendList(@Header("Authorization") String token);
+
+    @POST("profile/add_friend/{id}/")
+    Call<String> addFriend(@Path("id") String userId, @Header("Authorization") String token);
 }

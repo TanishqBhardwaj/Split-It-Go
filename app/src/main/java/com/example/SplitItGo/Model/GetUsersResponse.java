@@ -37,6 +37,9 @@ public class GetUsersResponse {
             return username;
         }
 
+        public String getPhone_number() {
+            return phone_number;
+        }
     }
 
     public ArrayList<UserData> getResults() {

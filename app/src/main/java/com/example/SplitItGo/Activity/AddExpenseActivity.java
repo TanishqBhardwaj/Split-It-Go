@@ -2,6 +2,7 @@ package com.example.SplitItGo.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.SplitItGo.Adapter.ExpensesAdapter;
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
 import com.example.SplitItGo.Model.ExpensesResponse;
 import com.example.SplitItGo.Model.GroupResponse;
@@ -42,6 +44,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     static GroupResponse groupResponse;
 
+
     public AddExpenseActivity() {
 
     }
@@ -73,6 +76,8 @@ public class AddExpenseActivity extends AppCompatActivity {
                 amount = editTextAmount.getText().toString();
                 billName = editTextBillName.getText().toString();
                 createExpense();
+                Intent intent = new Intent(AddExpenseActivity.this, DetailGroupActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

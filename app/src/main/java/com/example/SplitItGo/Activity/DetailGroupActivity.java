@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.SplitItGo.Adapter.ExpensesAdapter;
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
@@ -41,6 +43,8 @@ public class DetailGroupActivity extends AppCompatActivity {
     List<ExpensesResponse> temp;
     FloatingActionButton fabAddExpense;
     ArrayList<GroupItem> groupItemArrayList;
+    TextView textViewGroupName;
+    ProgressBar progressBar;
 
 
     public DetailGroupActivity() {
@@ -61,6 +65,10 @@ public class DetailGroupActivity extends AppCompatActivity {
         groupItemArrayList = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerViewExpenses);
         fabAddExpense = findViewById(R.id.fab_add_expense);
+        textViewGroupName = findViewById(R.id.textViewGroupName);
+        progressBar = findViewById(R.id.progressBarActivityDetail);
+        progressBar.setVisibility(View.VISIBLE);
+        textViewGroupName.setText(groupResponse.getName());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(DetailGroupActivity.this,
                 LinearLayoutManager.VERTICAL, false));
@@ -74,6 +82,7 @@ public class DetailGroupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(DetailGroupActivity.this, AddExpenseActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -160,6 +169,7 @@ public class DetailGroupActivity extends AppCompatActivity {
                         temp.add(expensesResponse1);
                     }
                     expensesAdapter = new ExpensesAdapter(DetailGroupActivity.this, temp, groupItemArrayList);
+                    progressBar.setVisibility(View.GONE);
 //                    expensesAdapter.notifyDataSetChanged();
                     recyclerView.setAdapter(expensesAdapter);
                 }

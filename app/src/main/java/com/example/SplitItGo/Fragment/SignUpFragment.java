@@ -3,6 +3,8 @@ package com.example.SplitItGo.Fragment;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.text.method.NumberKeyListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,23 +114,28 @@ public class SignUpFragment extends Fragment {
             call.enqueue(new Callback<SignUpResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<SignUpResponse> call,@NonNull Response<SignUpResponse> response) {
+                    try {
+                        if(!response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        SignUpResponse posts = response.body();
 
-                    if(!response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
-                        return;
+                        String content = "";
+                        content += "Code: " + response.code() + "\n";
+
+                        Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
+                        if(response.code()!= 404) {
+                            mUserId = String.valueOf(posts.getUser_id());
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new OtpFragment(mUserId,
+                                    editTextUsernameSignUpValue)).commit();
+                            Toast.makeText(getContext(), posts.getDetails(), Toast.LENGTH_LONG).show();
+                        }
                     }
-                    SignUpResponse posts = response.body();
-
-                    String content = "";
-                    content += "Code: " + response.code() + "\n";
-
-                    Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
-                    if(response.code()!= 404) {
-                        mUserId = String.valueOf(posts.getUser_id());
-                        getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new OtpFragment(mUserId,
-                                editTextUsernameSignUpValue)).commit();
-                        Toast.makeText(getContext(), posts.getDetails(), Toast.LENGTH_LONG).show();
+                    catch (NullPointerException e){
+                        e.printStackTrace();
                     }
+
                 }
 
                 @Override

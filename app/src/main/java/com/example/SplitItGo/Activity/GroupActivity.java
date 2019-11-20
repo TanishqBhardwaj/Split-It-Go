@@ -115,7 +115,6 @@ public class GroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 groupName = editText.getText().toString();
-                new ExpensesAdapter(groupName);
                 createGroup();
                 finish();
             }

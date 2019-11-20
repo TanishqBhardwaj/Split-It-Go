@@ -28,14 +28,9 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ModelV
     static List<ExpensesResponse> transactionsList;
     View view;
 
-    static String groupName;
 
     static ArrayList<GroupItem> groupItemArrayList;
     PreferenceUtils pref;
-
-    public ExpensesAdapter(String name) {
-        groupName = name;
-    }
 
     public ExpensesAdapter(Context context, List<ExpensesResponse> groupItemArrayList, ArrayList<GroupItem> allUsersList) {
         this.context = context;
@@ -147,7 +142,6 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ModelV
             holder.textViewExpensePaid.setText(expensesResponse.getDescription());
             holder.textViewExpenseDescription.setText(expensesResponse.getBill_name());
         }
-//        holder.textViewGroupName.setText(expensesResponse.get);
     }
 
     @Override
@@ -203,7 +197,6 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ModelV
         public TextView textViewExpenseDescription;
         public ImageView imageView;
         public TextView textView;
-        public TextView textViewGroupName;
 
         public ModelViewHolder(@NonNull View view) {
             super(view);
@@ -213,7 +206,6 @@ public class ExpensesAdapter extends RecyclerView.Adapter<ExpensesAdapter.ModelV
             textViewExpenseDescription = view.findViewById(R.id.textViewExpenseDescription);
             imageView = view.findViewById(R.id.imageViewTime);
             textView = view.findViewById(R.id.textViewTime);
-            textViewGroupName = view.findViewById(R.id.textViewGroupName);
         }
     }
 }
