@@ -116,7 +116,7 @@ public class SignUpFragment extends Fragment {
                 public void onResponse(@NonNull Call<SignUpResponse> call,@NonNull Response<SignUpResponse> response) {
                     try {
                         if(!response.isSuccessful()) {
-                            Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                             return;
                         }
                         SignUpResponse posts = response.body();
@@ -124,12 +124,18 @@ public class SignUpFragment extends Fragment {
                         String content = "";
                         content += "Code: " + response.code() + "\n";
 
-                        Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
+                        if(response.code() == 400) {
+                            Toast.makeText(getActivity(), "Empty fields!", Toast.LENGTH_LONG).show();
+                        }
+                        if(response.code() == 404) {
+                            Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_LONG).show();
+                        }
                         if(response.code()!= 404) {
                             mUserId = String.valueOf(posts.getUser_id());
                             getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new OtpFragment(mUserId,
                                     editTextUsernameSignUpValue)).commit();
-                            Toast.makeText(getContext(), posts.getDetails(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), posts.getDetails(), Toast.LENGTH_LONG).show();
                         }
                     }
                     catch (NullPointerException e){
@@ -140,12 +146,12 @@ public class SignUpFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<SignUpResponse> call, Throwable t) {
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
         else {
-            Toast.makeText(getContext(), "Passwords do not match.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Passwords do not match.", Toast.LENGTH_LONG).show();
         }
     }
 }

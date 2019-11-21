@@ -1,6 +1,11 @@
 package com.example.SplitItGo.Activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,71 +45,74 @@ public class HomeActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new HomeFragment()).commit();
         }
 
-        pref = new PreferenceUtils(getApplicationContext());
-        mNavigationView = findViewById(R.id.navigation_view);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        toolbar = findViewById(R.id.toolbar);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-        View headerView = mNavigationView.getHeaderView(0);
-        textViewUsername= headerView.findViewById((R.id.textUsername));
-        toolbar.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.stars));
-        actionBarDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this, mDrawerLayout, toolbar,
-                R.string.app_name, R.string.app_name);
-        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
-        actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_navigation_button);
-        actionBarDrawerToggle.syncState();
+            pref = new PreferenceUtils(getApplicationContext());
+            mNavigationView = findViewById(R.id.navigation_view);
+            mDrawerLayout = findViewById(R.id.drawer_layout);
+            toolbar = findViewById(R.id.toolbar);
 
-        textViewUsername.setText(pref.getKeyUsername());
+            bottomNavigationView = findViewById(R.id.bottom_navigation);
+            View headerView = mNavigationView.getHeaderView(0);
+            textViewUsername= headerView.findViewById((R.id.textUsername));
+            toolbar.setBackground(ContextCompat.getDrawable(HomeActivity.this, R.drawable.stars));
+            actionBarDrawerToggle = new ActionBarDrawerToggle(HomeActivity.this, mDrawerLayout, toolbar,
+                    R.string.app_name, R.string.app_name);
+            mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+            actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_navigation_button);
+            actionBarDrawerToggle.syncState();
 
-        actionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
+            textViewUsername.setText(pref.getKeyUsername());
+
+            actionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                    }
+                    else {
+                        mDrawerLayout.openDrawer(GravityCompat.START);
+                    }
                 }
-                else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
-            }
-        });
+            });
 
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                switch (id) {
-                    case R.id.nav_logout :
-                        pref.logoutUser();
-                        Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
+            mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    int id = menuItem.getItemId();
+                    switch (id) {
+                        case R.id.nav_logout :
+                            pref.logoutUser();
+                            Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                            break;
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+            });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_bottom_home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
-                                new HomeFragment()).commit();
-                        break;
-                    case R.id.nav_bottom_groups:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
-                                new GroupsFragment()).commit();
-                        break;
-                    case R.id.nav_bottom_activity:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
-                                new ActivityFragment()).commit();
-                        break;
+            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.nav_bottom_home:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
+                                    new HomeFragment()).commit();
+                            break;
+                        case R.id.nav_bottom_groups:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
+                                    new GroupsFragment()).commit();
+                            break;
+                        case R.id.nav_bottom_activity:
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
+                                    new ActivityFragment()).commit();
+                            break;
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+            });
     }
+
+
 }

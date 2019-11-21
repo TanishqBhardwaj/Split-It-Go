@@ -91,32 +91,39 @@ public class LoginFragment extends Fragment {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-                if(!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
-                    return;
-                }
+//                if(!response.isSuccessful()) {
+//                    Toast.makeText(getActivity(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                    return;
+//                }
                 LoginResponse posts = response.body();
-
+                if(response.code() == 400) {
+                    Toast.makeText(getActivity(), "User do not exist!", Toast.LENGTH_LONG).show();
+                }
+                if(response.code() == 404) {
+                    Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_LONG).show();
+                }
                 String content = "";
                 content += "Code: " + response.code() + "\n";
                 content += "Token: " + posts.getToken() + "\n";
-                Log.d(posts.getToken(), "onResponse: ");
+//                Log.d(posts.getToken(), "onResponse: ");
                 try {
                     user_id = JWTUtils.decoded(posts.getToken());
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
+
+
+//                Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
                 pref.createLoginSession(editTextUsernameLogin, posts.getToken(), user_id);
 
-                Intent intent = new Intent(getContext(), HomeActivity.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

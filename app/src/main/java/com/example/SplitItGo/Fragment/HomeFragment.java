@@ -1,13 +1,17 @@
 package com.example.SplitItGo.Fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,14 +27,12 @@ import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.PreferenceUtils;
 import com.example.SplitItGo.Utils.RetrofitInstance;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
@@ -56,32 +58,68 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        pref = new PreferenceUtils(getContext());
+        if(!isConnected(getActivity())){ buildDialog(getActivity()).show();}
+        else {
+            pref = new PreferenceUtils(getContext());
 
-        friendList = new ArrayList<>();
-        groupItemArrayList = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.recyclerViewHome);
-        progressBar = view.findViewById(R.id.progressBarHome);
-        fabAddContact = view.findViewById(R.id.fab_add_contact);
-        progressBar.setVisibility(View.VISIBLE);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL, false));
-        friendsAdapter = new FriendsAdapter(getContext(), friendList);
-        recyclerView.setAdapter(friendsAdapter);
+            friendList = new ArrayList<>();
+            groupItemArrayList = new ArrayList<>();
+            recyclerView = view.findViewById(R.id.recyclerViewHome);
+            progressBar = view.findViewById(R.id.progressBarHome);
+            fabAddContact = view.findViewById(R.id.fab_add_contact);
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
+                    LinearLayoutManager.VERTICAL, false));
+            friendsAdapter = new FriendsAdapter(getContext(), friendList);
+            recyclerView.setAdapter(friendsAdapter);
 
-        initList();
+            initList();
 
-        fabAddContact.setOnClickListener(new View.OnClickListener() {
+            fabAddContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                    startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
+                }
+            });
+        }
+
+        return view;
+    }
+
+    public boolean isConnected(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
+            else return false;
+        } else
+            return false;
+    }
+
+    public AlertDialog.Builder buildDialog(Context c) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("You need to have Mobile Data or wifi to access this. Press ok to Dismiss.");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-                startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
             }
         });
 
-        return view;
+        return builder;
     }
 
     @Override
@@ -131,7 +169,7 @@ public class HomeFragment extends Fragment {
 
                             try {
                                 if (!response.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 GetUsersResponse posts = response.body();
@@ -166,8 +204,8 @@ public class HomeFragment extends Fragment {
                                                     @Override
                                                     public void onResponse(Call<String> call, Response<String> response) {
                                                         if (!response.isSuccessful()) {
-                                                            Toast.makeText(getContext(), "Code: " + response.code(),
-                                                                    Toast.LENGTH_LONG).show();
+//                                                            Toast.makeText(getContext(), "Code: " + response.code(),
+//                                                                    Toast.LENGTH_LONG).show();
                                                             return;
                                                         }
                                                         String content = response.body();
@@ -199,7 +237,8 @@ public class HomeFragment extends Fragment {
             }
     }
         else {
-            Log.e("MainActivity", "Failed to pick contact");
+//            Log.e("MainActivity", "Failed to pick contact");
+            Toast.makeText(getActivity(), "Failed to pick contact!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -221,7 +260,7 @@ public class HomeFragment extends Fragment {
 
                 try {
                     if(!response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
                     GetUsersResponse posts = response.body();
@@ -247,28 +286,6 @@ public class HomeFragment extends Fragment {
                                         }
                                     }
                                 }
-
-//                                if(phoneNumber.equals(allMemberList.get(i).getPhone_number())) {
-//                                    Call<String> call3 = jsonPlaceHolderApi.addFriend(user_id, token);
-//                                    call3.enqueue(new Callback<String>() {
-//                                        @Override
-//                                        public void onResponse(Call<String> call, Response<String> response) {
-//                                                if(!response.isSuccessful()) {
-//                                                    Toast.makeText(getContext(), "Code: " + response.code(),
-//                                                            Toast.LENGTH_LONG).show();
-//                                                    return;
-//                                                }
-//                                                String content = response.body();
-//
-//                                                Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
-//                                        }
-//
-//                                        @Override
-//                                        public void onFailure(Call<String> call, Throwable t) {
-//                                            Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-//                                        }
-//                                    });
-//                                }
                                 groupItemArrayList.add(new GroupItem(allMemberList.get(i).getUsername(), R.drawable.ic_home, user_id));
                             }
                         }
@@ -279,10 +296,12 @@ public class HomeFragment extends Fragment {
                         public void onResponse(Call<ArrayList<Integer>> call, Response<ArrayList<Integer>> response) {
                             try {
                                 if(!response.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                                     return;
                                 }
-                                int content = response.code();
+                                if(response.code()==429 ) {
+                                    Toast.makeText(getActivity(), "No response from server", Toast.LENGTH_LONG).show();
+                                }
                                 ArrayList<Integer> friendResponse = response.body();
                                 if(friendResponse!=null) {
                                     for(int i=0; i<friendResponse.size(); i++) {
@@ -297,8 +316,7 @@ public class HomeFragment extends Fragment {
                                 friendsAdapter = new FriendsAdapter(getContext(), friendList);
                                 recyclerView.setAdapter(friendsAdapter);
                                 progressBar.setVisibility(View.GONE);
-//                    allGroupAdapter.setOnItemClickListener(GroupsFragment.this);
-                                Toast.makeText(getContext(), String.valueOf(content), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getContext(), String.valueOf(content), Toast.LENGTH_LONG).show();
                             }
                             catch (NullPointerException e) {
                                 e.printStackTrace();
@@ -314,14 +332,11 @@ public class HomeFragment extends Fragment {
                catch (NullPointerException e) {
                     e.printStackTrace();
                }
-//                progressBar.setVisibility(View.GONE);
-//                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-//                Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Call<GetUsersResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

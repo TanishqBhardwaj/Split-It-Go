@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.SplitItGo.Adapter.AllMemberAdapter;
 import com.example.SplitItGo.Adapter.ExpensesAdapter;
+import com.example.SplitItGo.Adapter.FriendsAdapter;
 import com.example.SplitItGo.Adapter.GroupMemberAdapter;
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
 import com.example.SplitItGo.Model.GetUsersResponse;
@@ -38,6 +39,7 @@ public class GroupActivity extends AppCompatActivity {
     private ArrayList<GroupItem> groupItemArrayList;
     private ArrayList<GroupItem> selectedMemberList;
     private ArrayList<Integer> groupMemberUserId = new ArrayList<>();
+    ArrayList<GroupItem> friendList;
     private AllMemberAdapter allMemberAdapter;
 
     TextView textView;
@@ -51,6 +53,7 @@ public class GroupActivity extends AppCompatActivity {
     GroupMemberAdapter groupMemberAdapter;
 
     ProgressBar progressBar;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class GroupActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(GroupActivity.this,
                 LinearLayoutManager.VERTICAL, false));
         selectedMemberList = new ArrayList<>();
+        friendList = new ArrayList<>();
         selectedMemberList.add(new GroupItem(pref.getKeyUsername(), R.drawable.ic_home, pref.getKeyUserId()));
         groupMemberUserId.add(Integer.parseInt(pref.getKeyUserId()));
         groupMemberAdapter = new GroupMemberAdapter(GroupActivity.this, selectedMemberList);
@@ -80,7 +84,7 @@ public class GroupActivity extends AppCompatActivity {
         initList();
 
         Spinner spinner = findViewById(R.id.spinner);
-        allMemberAdapter = new AllMemberAdapter(this, groupItemArrayList);
+        allMemberAdapter = new AllMemberAdapter(this, friendList);
         spinner.setAdapter(allMemberAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -122,8 +126,9 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void initList() {
+        friendList = new ArrayList<>();
         groupItemArrayList = new ArrayList<>();
-        groupItemArrayList.add(new GroupItem("Add Members", R.drawable.ic_home, "0"));
+        friendList.add(new GroupItem("Add Members", R.drawable.ic_home, "0"));
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -133,7 +138,7 @@ public class GroupActivity extends AppCompatActivity {
                 .build();
 
         jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
-        String token = "JWT " + pref.getToken();
+        token = "JWT " + pref.getToken();
         Call<GetUsersResponse> call = jsonPlaceHolderApi.getGroupMembers(token);
         call.enqueue(new Callback<GetUsersResponse>() {
             @Override
@@ -171,6 +176,43 @@ public class GroupActivity extends AppCompatActivity {
                         }
                     }
                 }
+                Call<ArrayList<Integer>> call2 = jsonPlaceHolderApi.getFriendList(token);
+                call2.enqueue(new Callback<ArrayList<Integer>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Integer>> call, Response<ArrayList<Integer>> response) {
+                        try {
+                            if(!response.isSuccessful()) {
+                                Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            int content = response.code();
+                            ArrayList<Integer> friendResponse = response.body();
+                            if(friendResponse!=null) {
+                                for(int i=0; i<friendResponse.size(); i++) {
+                                    for(int j=0; j<groupItemArrayList.size(); j++) {
+                                        if(friendResponse.get(i) == Integer.parseInt(groupItemArrayList.get(j).getUser_id())) {
+                                            friendList.add(new GroupItem(groupItemArrayList.get(j).getmGroupMemberName(),
+                                                    R.drawable.ic_home, groupItemArrayList.get(j).getUser_id()));
+                                        }
+                                    }
+                                }
+                            }
+//                            friendsAdapter = new FriendsAdapter(getContext(), friendList);
+//                            recyclerView.setAdapter(friendsAdapter);
+//                            progressBar.setVisibility(View.GONE);
+//                            Toast.makeText(getContext(), String.valueOf(content), Toast.LENGTH_LONG).show();
+                        }
+                        catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<Integer>> call, Throwable t) {
+                        Toast.makeText(GroupActivity.this , t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
                 progressBar.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(GroupActivity.this, content, Toast.LENGTH_LONG).show();

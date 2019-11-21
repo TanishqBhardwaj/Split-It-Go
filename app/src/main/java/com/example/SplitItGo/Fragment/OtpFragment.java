@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
@@ -27,10 +28,10 @@ public class OtpFragment extends Fragment {
     String mUserId;
     String username;
     EditText mEditTextOtp;
-    Button mButtonSumbitOtp;
-    Button mButtonBackOtp;
     String editTextOtp;
     View view;
+
+    ImageView imageView;
 
     JsonPlaceHolderApi jsonPlaceHolderApi;
 
@@ -45,8 +46,7 @@ public class OtpFragment extends Fragment {
         view =  inflater.inflate(R.layout.fragment_otp, container, false);
 
         mEditTextOtp = view.findViewById(R.id.editTextOtp);
-        mButtonSumbitOtp = view.findViewById(R.id.buttonSubmitOtp);
-        mButtonBackOtp = view.findViewById(R.id.buttonBackOtp);
+        imageView = view.findViewById(R.id.imageView16);
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -57,7 +57,7 @@ public class OtpFragment extends Fragment {
 
         jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
 
-        mButtonSumbitOtp.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 editTextOtp = mEditTextOtp.getText().toString();
@@ -65,12 +65,12 @@ public class OtpFragment extends Fragment {
             }
         });
 
-        mButtonBackOtp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new SignUpFragment()).commit();
-            }
-        });
+//        mButtonBackOtp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new SignUpFragment()).commit();
+//            }
+//        });
         return view;
     }
 
@@ -82,7 +82,7 @@ public class OtpFragment extends Fragment {
             @Override
             public void onResponse(Call<OtpResponse> call, Response<OtpResponse> response) {
                 if(!response.isSuccessful()) {
-                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 OtpResponse posts = response.body();
@@ -90,18 +90,18 @@ public class OtpFragment extends Fragment {
                 String content = "";
                 content += "Code: " + response.code() + "\n";
 
-                Toast.makeText(getContext(), content, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
                 if(response.code()!= 404) {
                     if(posts.getMessage()!=null) {
                         getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginFragment()).commit();
                     }
-                    Toast.makeText(getContext(), posts.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), posts.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<OtpResponse> call, Throwable t) {
-
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

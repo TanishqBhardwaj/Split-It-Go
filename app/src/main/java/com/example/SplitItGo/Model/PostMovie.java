@@ -17,7 +17,8 @@ public class PostMovie {
         public String confirm_password;
         public String otp;
 
-        public PostMovies(String username, String first_name, String last_name, String email, String password, String phone_number, String confirm_password) {
+        public PostMovies(String username, String first_name, String last_name, String email, String password,
+                          String phone_number, String confirm_password) {
             this.username = username;
             this.first_name = first_name;
             this.last_name = last_name;
