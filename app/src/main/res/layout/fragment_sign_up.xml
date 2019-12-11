@@ -26,6 +26,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 app:errorEnabled="true"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewSignUpHeading">
@@ -34,7 +35,7 @@
                     android:id="@+id/editTextUsernameSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:textColorHint="@android:color/white"
                     android:ems="10"
                     android:hint="Username"
                     android:inputType="textPersonName" />
@@ -42,59 +43,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputLayoutFirstNameSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="73dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                app:errorEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputLayoutUsernameSignUp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextFirstNameSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="First Name"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputLayoutLastNameSignUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                app:errorEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputLayoutFirstNameSignUp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextLastNameSignUp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Last Name"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutEmailSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="73dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
+                android:textColorHint="@android:color/white"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputLayoutLastNameSignUp">
+                app:layout_constraintTop_toBottomOf="@id/inputLayoutUsernameSignUp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextEmailSignUp"
@@ -110,8 +69,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
+                android:textColorHint="@android:color/white"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,8 +93,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
+                android:textColorHint="@android:color/white"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,9 +116,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
+                android:textColorHint="@android:color/white"
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
                 app:errorEnabled="true"
                 app:layout_constraintBottom_toTopOf="@+id/textViewSignUpLink"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -170,7 +134,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Phone Number"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:maxLength="10" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -178,9 +143,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="SignUp"
-                android:textSize="20sp"
+                android:layout_marginTop="100dp"
+                android:text="Signup"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -193,6 +159,7 @@
                 android:text="Already have an account? Login here"
                 android:textColor="#A7A7A7"
                 android:textSize="15sp"
+                android:elevation="2dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputLayoutPhoneNumberSignUp" />
 
@@ -202,7 +169,6 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:src="@drawable/stars"
-                android:translationY="-60dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -212,7 +178,6 @@
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:src="@drawable/stars_footer"
-                android:translationY="60dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -221,12 +186,13 @@
                 style="?android:borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/path"
                 android:translationX="70dp"
                 android:translationY="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewSignUpLink" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewSignUpLink" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -242,6 +208,24 @@
                 app:layout_constraintStart_toStartOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
+            <ProgressBar
+                android:id="@+id/progressBarSignUp"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewBlankSignUp"
+                android:elevation="1dp"
+                android:alpha="0.3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

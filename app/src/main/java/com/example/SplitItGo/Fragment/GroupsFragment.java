@@ -7,19 +7,14 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.SplitItGo.Activity.DetailGroupActivity;
 import com.example.SplitItGo.Activity.GroupActivity;
 import com.example.SplitItGo.Adapter.AllGroupAdapter;
@@ -30,12 +25,8 @@ import com.example.SplitItGo.Utils.PreferenceUtils;
 import com.example.SplitItGo.Utils.RetrofitInstance;
 import com.example.SplitItGo.Utils.ViewAnimation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -108,8 +99,10 @@ public class GroupsFragment extends Fragment implements AllGroupAdapter.OnItemCl
             android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
-            else return false;
+            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
+                 return true;
+            else
+                return false;
         } else
             return false;
     }
@@ -134,27 +127,22 @@ public class GroupsFragment extends Fragment implements AllGroupAdapter.OnItemCl
     }
 
     public void initList() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
         String token = "JWT " + pref.getToken();
         Call<List<GroupResponse>> call = jsonPlaceHolderApi.getGroups(token);
         call.enqueue(new Callback<List<GroupResponse>>() {
             @Override
             public void onResponse(Call<List<GroupResponse>> call, Response<List<GroupResponse>> response) {
                 try {
+                    if(response.code() == 429) {
+                        Toast.makeText(getActivity(), "No response from server", Toast.LENGTH_LONG).show();
+                    }
                     if(!response.isSuccessful()) {
 //                        Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(response.code() == 429) {
-                        Toast.makeText(getActivity(), "No response from server", Toast.LENGTH_LONG).show();
-                    }
+
                     List<GroupResponse> groupResponse = response.body();
                     for(GroupResponse groupResponse1: groupResponse) {
                         int id = groupResponse1.getId();

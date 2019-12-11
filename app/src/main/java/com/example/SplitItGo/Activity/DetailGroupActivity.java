@@ -88,14 +88,8 @@ public class DetailGroupActivity extends AppCompatActivity {
     }
 
     public void initList() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
         String token = "JWT " + pref.getToken();
 
         Call<GetUsersResponse> callUsers = jsonPlaceHolderApi.getGroupMembers(token);
@@ -104,13 +98,13 @@ public class DetailGroupActivity extends AppCompatActivity {
             public void onResponse(Call<GetUsersResponse> call, Response<GetUsersResponse> response) {
 
                 if(!response.isSuccessful()) {
-                    Toast.makeText(DetailGroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(DetailGroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 GetUsersResponse posts = response.body();
 
                 String content = "";
-                content += "Code: " + response.code() + "\n";
+//                content += "Code: " + response.code() + "\n";
 
                 ArrayList<GetUsersResponse.UserData> allMemberList = new ArrayList<>(posts.getResults());
                 for(int i=0; i<allMemberList.size(); i++) {
@@ -135,7 +129,7 @@ public class DetailGroupActivity extends AppCompatActivity {
                     }
                 }
 //                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Toast.makeText(DetailGroupActivity.this, content, Toast.LENGTH_LONG).show();
+//                Toast.makeText(DetailGroupActivity.this, content, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -152,7 +146,7 @@ public class DetailGroupActivity extends AppCompatActivity {
             public void onResponse(Call<List<ExpensesResponse>> call, Response<List<ExpensesResponse>> response) {
                 try {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(DetailGroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(DetailGroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
                     List<ExpensesResponse> expensesList = response.body();

@@ -152,14 +152,7 @@ public class HomeFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-                    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                            .addInterceptor(loggingInterceptor)
-                            .build();
-
-                    jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+                    jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
                     final String token = "JWT " + pref.getToken();
 
                     Call<GetUsersResponse> call = jsonPlaceHolderApi.getGroupMembers(token);
@@ -243,14 +236,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void initList() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
         final String token = "JWT " + pref.getToken();
 
         Call<GetUsersResponse> call = jsonPlaceHolderApi.getGroupMembers(token);
@@ -295,12 +282,12 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onResponse(Call<ArrayList<Integer>> call, Response<ArrayList<Integer>> response) {
                             try {
+                                if(response.code()==429 ) {
+                                    Toast.makeText(getActivity(), "No response from server", Toast.LENGTH_LONG).show();
+                                }
                                 if(!response.isSuccessful()) {
 //                                    Toast.makeText(getContext(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
                                     return;
-                                }
-                                if(response.code()==429 ) {
-                                    Toast.makeText(getActivity(), "No response from server", Toast.LENGTH_LONG).show();
                                 }
                                 ArrayList<Integer> friendResponse = response.body();
                                 if(friendResponse!=null) {

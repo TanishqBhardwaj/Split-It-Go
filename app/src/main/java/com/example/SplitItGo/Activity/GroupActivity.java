@@ -130,14 +130,7 @@ public class GroupActivity extends AppCompatActivity {
         groupItemArrayList = new ArrayList<>();
         friendList.add(new GroupItem("Add Members", R.drawable.ic_home, "0"));
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
         token = "JWT " + pref.getToken();
         Call<GetUsersResponse> call = jsonPlaceHolderApi.getGroupMembers(token);
         call.enqueue(new Callback<GetUsersResponse>() {
@@ -145,7 +138,7 @@ public class GroupActivity extends AppCompatActivity {
             public void onResponse(Call<GetUsersResponse> call, Response<GetUsersResponse> response) {
 
                 if(!response.isSuccessful()) {
-                    Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 GetUsersResponse posts = response.body();
@@ -182,7 +175,7 @@ public class GroupActivity extends AppCompatActivity {
                     public void onResponse(Call<ArrayList<Integer>> call, Response<ArrayList<Integer>> response) {
                         try {
                             if(!response.isSuccessful()) {
-                                Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                                 return;
                             }
                             int content = response.code();
@@ -226,14 +219,8 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void createGroup() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
 
         for(int i=0; i<groupItemArrayList.size(); i++) {
             for(int j=0; j<selectedMemberList.size(); j++) {
@@ -253,7 +240,7 @@ public class GroupActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<CreateGroupResponse> call, Response<CreateGroupResponse> response) {
                     if(!response.isSuccessful()) {
-                        Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(GroupActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
                     CreateGroupResponse posts = response.body();

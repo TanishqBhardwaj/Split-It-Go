@@ -47,6 +47,7 @@
             android:elevation="3dp"
             android:background="@android:color/white"
             app:itemHorizontalTranslationEnabled="true"
+            android:textDirection="firstStrong"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_nav_menu" />
 

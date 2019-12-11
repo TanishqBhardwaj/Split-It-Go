@@ -19,15 +19,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <Button-->
-<!--            android:id="@+id/buttonSubmitOtp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:text="Submit"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@id/buttonBackOtp"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/editTextOtp" />-->
 
     <ImageView
         android:id="@+id/imageView16"
@@ -75,15 +66,5 @@
         android:translationY="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <!--        <Button-->
-<!--            android:id="@+id/buttonBackOtp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:text="Back"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/buttonSubmitOtp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/editTextOtp" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>

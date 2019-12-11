@@ -1,14 +1,17 @@
 package com.example.SplitItGo.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.SplitItGo.Activity.HomeActivity;
@@ -19,111 +22,148 @@ import com.example.SplitItGo.Utils.JWTUtils;
 import com.example.SplitItGo.Utils.PreferenceUtils;
 import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.RetrofitInstance;
-import com.google.android.material.textfield.TextInputEditText;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import com.google.android.material.textfield.TextInputLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
 
-    private TextInputEditText mEditTextUsernameLogin;
-    private TextInputEditText mEditTextPasswordLogin;
-    TextView mTextViewLoginHeading;
-    TextView mTextViewLoginLink;
-    ImageView imageView;
+    private TextInputLayout editTextUsernameLogin;
+    private TextInputLayout editTextPasswordLogin;
+    private TextView textViewLoginLink;
+    private ImageView imageViewLoginButton;
 
-    private String editTextUsernameLogin;
-    private String editTextPasswordLogin;
-    String user_id;
+    private String usernameInput;
+    private String passwordInput;
+    private String user_id;
 
-    PreferenceUtils pref;
-    JsonPlaceHolderApi jsonPlaceHolderApi;
+    private PreferenceUtils pref;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
+    private Context mContext;
+    private Activity mActivity;
+    private ProgressBar progressBarLogin;
+    private View viewBlankLogin;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+        if(context instanceof Activity) {
+            mActivity = (Activity) context;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
-        if(savedInstanceState != null) {
-            getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new LoginFragment()).commit();
-        }
-        pref = new PreferenceUtils(getContext());
+        pref = new PreferenceUtils(mContext);
 
-        mEditTextUsernameLogin = view.findViewById(R.id.editTextUsernameLogin);
-        mEditTextPasswordLogin = view.findViewById(R.id.editTextPasswordLogin);
-        mTextViewLoginHeading = view.findViewById(R.id.textViewLoginHeading);
-        mTextViewLoginLink = view.findViewById(R.id.textViewLoginLink);
-        imageView = view.findViewById(R.id.imageView2);
+        editTextUsernameLogin = view.findViewById(R.id.inputLayoutUsernameLogin);
+        editTextPasswordLogin = view.findViewById(R.id.inputLayoutPasswordLogin);
+        textViewLoginLink = view.findViewById(R.id.textViewLoginLink);
+        imageViewLoginButton = view.findViewById(R.id.imageView2);
+        progressBarLogin = view.findViewById(R.id.progressBarLogin);
+        viewBlankLogin = view.findViewById(R.id.viewBlankLogin);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        progressBarLogin.setVisibility(View.GONE);
+        viewBlankLogin.setVisibility(View.GONE);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
 
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
+        imageViewLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editTextUsernameLogin = mEditTextUsernameLogin.getText().toString();
-                editTextPasswordLogin = mEditTextPasswordLogin.getText().toString();
-                loginPost();
+
+//                Intent intent = new Intent(mContext, HomeActivity.class);
+//                startActivity(intent);
+//                mActivity.finish();
+
+
+                if(!validateUsername() | !validatePassword()) {
+                    return;
+                }
+                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main,
+                        new SetPasscodeFragment(usernameInput)).commit();
+//                progressBarLogin.setVisibility(View.VISIBLE);
+//                viewBlankLogin.setVisibility(View.VISIBLE);
+//                mActivity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+//                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//                loginPost();
             }
         });
 
-        mTextViewLoginLink.setOnClickListener(new View.OnClickListener() {
+        textViewLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new SignUpFragment()).commit();
             }
         });
+
         return view;
     }
 
+    private boolean validateUsername() {
+        usernameInput = editTextUsernameLogin.getEditText().getText().toString();
+        if(usernameInput.isEmpty()) {
+            editTextUsernameLogin.setError("Field can't be empty");
+            return false;
+        }
+        else {
+            editTextUsernameLogin.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword() {
+        passwordInput = editTextPasswordLogin.getEditText().getText().toString();
+        if(passwordInput.isEmpty()) {
+            editTextPasswordLogin.setError("Field can't be empty");
+            return false;
+        }
+        else {
+            editTextPasswordLogin.setError(null);
+            return true;
+        }
+    }
+
     public void loginPost() {
-        PostMovie.PostMovies postMovies = new PostMovie.PostMovies(editTextUsernameLogin, editTextPasswordLogin);
+        PostMovie.PostMovies postMovies = new PostMovie.PostMovies(usernameInput, passwordInput);
 
         Call<LoginResponse> call = jsonPlaceHolderApi.loginPost(postMovies);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
-//                if(!response.isSuccessful()) {
-//                    Toast.makeText(getActivity(), "Code: " + response.code(), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-                LoginResponse posts = response.body();
-                if(response.code() == 400) {
-                    Toast.makeText(getActivity(), "User do not exist!", Toast.LENGTH_LONG).show();
-                }
-                if(response.code() == 404) {
-                    Toast.makeText(getActivity(), "An error occurred!", Toast.LENGTH_LONG).show();
-                }
-                String content = "";
-                content += "Code: " + response.code() + "\n";
-                content += "Token: " + posts.getToken() + "\n";
-//                Log.d(posts.getToken(), "onResponse: ");
                 try {
+                    if(response.code() == 400) {
+                        Toast.makeText(mContext, "User do not exist!", Toast.LENGTH_LONG).show();
+                    }
+                    if(response.code() == 404) {
+                        Toast.makeText(mContext, "An error occurred!", Toast.LENGTH_LONG).show();
+                    }
+                    if(!response.isSuccessful()) {
+                        return;
+                    }
+                    LoginResponse posts = response.body();
                     user_id = JWTUtils.decoded(posts.getToken());
+                    pref.createLoginSession(usernameInput, posts.getToken(), user_id);
+
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    progressBarLogin.setVisibility(View.GONE);
+                    viewBlankLogin.setVisibility(View.GONE);
+                    mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    startActivity(intent);
+                    mActivity.finish();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
-//                Toast.makeText(getActivity(), content, Toast.LENGTH_LONG).show();
-                pref.createLoginSession(editTextUsernameLogin, posts.getToken(), user_id);
-
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

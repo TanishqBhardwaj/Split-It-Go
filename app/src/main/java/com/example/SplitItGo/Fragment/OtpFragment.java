@@ -2,23 +2,17 @@ package com.example.SplitItGo.Fragment;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.example.SplitItGo.Interface.JsonPlaceHolderApi;
 import com.example.SplitItGo.Model.OtpResponse;
 import com.example.SplitItGo.Model.PostMovie;
 import com.example.SplitItGo.R;
 import com.example.SplitItGo.Utils.RetrofitInstance;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,14 +42,7 @@ public class OtpFragment extends Fragment {
         mEditTextOtp = view.findViewById(R.id.editTextOtp);
         imageView = view.findViewById(R.id.imageView16);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +52,6 @@ public class OtpFragment extends Fragment {
             }
         });
 
-//        mButtonBackOtp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main, new SignUpFragment()).commit();
-//            }
-//        });
         return view;
     }
 

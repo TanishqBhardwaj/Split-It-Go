@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0E014F"
+    tools:context="com.example.SplitItGo.Fragment.SetPasscodeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/editTextSetPasscode1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        android:maxLength="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <EditText
+        android:id="@+id/editTextSetPasscode2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:maxLength="1"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSetPasscode1"
+        app:layout_constraintStart_toEndOf="@+id/editTextSetPasscode1"
+        app:layout_constraintTop_toTopOf="@+id/editTextSetPasscode1" />
+
+    <EditText
+        android:id="@+id/editTextSetPasscode3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:maxLength="1"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSetPasscode2"
+        app:layout_constraintStart_toEndOf="@+id/editTextSetPasscode2"
+        app:layout_constraintTop_toTopOf="@+id/editTextSetPasscode2" />
+
+    <EditText
+        android:id="@+id/editTextSetPasscode4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:maxLength="1"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSetPasscode3"
+        app:layout_constraintStart_toEndOf="@+id/editTextSetPasscode3"
+        app:layout_constraintTop_toTopOf="@+id/editTextSetPasscode3" />
+
+            <ImageView
+                android:id="@+id/imageViewStartSetPasscode"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:elevation="2dp"
+                android:src="@drawable/path"
+                android:translationX="70dp"
+                android:translationY="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextSetPasscode1" />
+
+    <TextView
+        android:id="@+id/textViewStartSetPasscode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:elevation="3dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:translationX="70dp"
+        android:translationY="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageViewStartSetPasscode"
+        app:layout_constraintTop_toTopOf="@+id/imageViewStartSetPasscode" />
+
+    <ImageView
+        android:id="@+id/imageViewUpperStarsSetPasscode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:translationY="-60dp"
+        android:src="@drawable/stars"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewLowerStarsSetPasscode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/stars_footer"
+        android:translationY="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="200dp"
+        android:text="Welcome,"
+        android:textColor="#A7A7A7"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewUsernameSetPasscode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:textSize="20sp"
+        android:textColor="#A7A7A7"
+        android:text="Set a PIN Code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUsernameSetPasscode" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

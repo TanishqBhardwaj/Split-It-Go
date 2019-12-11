@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import com.example.SplitItGo.Fragment.ActivityFragment;
@@ -44,8 +46,6 @@ public class HomeActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new HomeFragment()).commit();
         }
-
-
             pref = new PreferenceUtils(getApplicationContext());
             mNavigationView = findViewById(R.id.navigation_view);
             mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -97,14 +97,17 @@ public class HomeActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.nav_bottom_home:
+                            Toast.makeText(HomeActivity.this, String.valueOf(item.getItemId()), Toast.LENGTH_LONG).show();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
                                     new HomeFragment()).commit();
                             break;
                         case R.id.nav_bottom_groups:
+                            Toast.makeText(HomeActivity.this, String.valueOf(item.getItemId()), Toast.LENGTH_LONG).show();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
                                     new GroupsFragment()).commit();
                             break;
                         case R.id.nav_bottom_activity:
+                            Toast.makeText(HomeActivity.this, String.valueOf(item.getItemId()), Toast.LENGTH_LONG).show();
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home,
                                     new ActivityFragment()).commit();
                             break;
@@ -113,6 +116,4 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
     }
-
-
 }

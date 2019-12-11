@@ -1,11 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.SplitItGo.Fragment.HomeFragment"
-    android:background="#0E014F">
+    android:background="#0E014F"
+    tools:context="com.example.SplitItGo.Fragment.HomeFragment">
 
     <ImageView
         android:id="@+id/imageViewCurveHome"
@@ -64,10 +63,45 @@
         android:layout_marginBottom="100dp"
         android:clickable="true"
         android:focusable="true"
+        android:src="@drawable/add_contact"
         app:backgroundTint="#B7B3CA"
         app:fabSize="normal"
-        android:src="@drawable/add_contact"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewNoFriends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCurveHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCurveHome"
+        app:srcCompat="@drawable/ic_freindlist" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewHomeHeading"
+        app:layout_constraintStart_toStartOf="@+id/textViewHomeHeading"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHomeHeading" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="190dp"
+        android:elevation="7dp"
+        android:text="No Friends"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageViewNoFriends"
+        app:layout_constraintTop_toTopOf="@+id/imageViewNoFriends" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

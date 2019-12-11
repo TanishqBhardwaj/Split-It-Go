@@ -91,14 +91,8 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
 
     public void createExpense() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
-
-        jsonPlaceHolderApi = RetrofitInstance.getRetrofit(okHttpClient).create(JsonPlaceHolderApi.class);
+        jsonPlaceHolderApi = RetrofitInstance.getRetrofit().create(JsonPlaceHolderApi.class);
         String token = "JWT " + pref.getToken();
         PostExpense postExpense = new PostExpense(billName, description, String.valueOf(groupResponse.getId()),
                 amount, pref.getKeyUserId());
@@ -108,7 +102,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             public void onResponse(Call<ExpensesResponse> call, Response<ExpensesResponse> response) {
                 try {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(AddExpenseActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(AddExpenseActivity.this, "Code: " + response.code(), Toast.LENGTH_LONG).show();
                         return;
                     }
                     Toast.makeText(AddExpenseActivity.this, "Expense Added", Toast.LENGTH_SHORT).show();
