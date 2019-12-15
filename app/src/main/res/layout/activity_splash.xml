@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.SplitItGo.Activity.SplashActivity">
 
-
     <ImageView
         android:id="@+id/imageView19"
         android:layout_width="wrap_content"
@@ -18,4 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/splash" />
+
+    <FrameLayout
+        android:id="@+id/fragment_frame_splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

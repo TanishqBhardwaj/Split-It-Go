@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.SplitItGo.Activity.HomeActivity;
 import com.example.SplitItGo.R;
+import com.example.SplitItGo.Utils.PreferenceUtils;
 
 public class PasscodeFragment extends Fragment implements TextWatcher, View.OnKeyListener, View.OnFocusChangeListener {
 
@@ -29,6 +31,8 @@ public class PasscodeFragment extends Fragment implements TextWatcher, View.OnKe
     private char[] code = new char[4];
     private Context mContext;
     private Activity mActivity;
+    private PreferenceUtils pref;
+    private TextView textViewUsername;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -44,29 +48,43 @@ public class PasscodeFragment extends Fragment implements TextWatcher, View.OnKe
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_passcode, container, false);
+
+        pref = new PreferenceUtils(mContext);
+
         editText1 = view.findViewById(R.id.editText1);
         editText2 = view.findViewById(R.id.editText2);
         editText3 = view.findViewById(R.id.editText3);
         editText4 = view.findViewById(R.id.editText4);
+        textViewUsername = view.findViewById(R.id.textViewUsernamePasscode);
         imageViewStart = view.findViewById(R.id.imageViewStartPasscode);
+        textViewUsername.setText(pref.getKeyUsername());
         setListners();
 
         imageViewStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String passcode="";
                 for(int i=0; i<code.length; i++) {
-                    passcode = passcode + code[i];
-                    Log.d(String.valueOf(code[i]), "onClick: ");
+                    if(code[i]!='\u0000') {
+                        passcode = passcode + code[i];
+                        Log.d(String.valueOf(code[i]), "onClick: ");
+                    }
                 }
-                Log.d(passcode, "onClick: ");
-                if(passcode.equals("1234")) {
-                    Intent intent = new Intent(mContext, HomeActivity.class);
-                    startActivity(intent);
-                    mActivity.finish();
+                Log.d(passcode, "PassCode: ");
+                if(passcode.length() == 4) {
+                    if(passcode.equals(pref.getKeyPasscode())) {
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        mActivity.finish();
+//                        getFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new PasscodeFragment()).commit();
+                    }
+                    else {
+                        Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else {
-                    Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Fill all the fields", Toast.LENGTH_LONG).show();
                 }
             }
         });

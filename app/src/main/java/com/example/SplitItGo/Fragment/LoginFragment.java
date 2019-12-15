@@ -84,6 +84,7 @@ public class LoginFragment extends Fragment {
                 if(!validateUsername() | !validatePassword()) {
                     return;
                 }
+                pref.createLoginSession(usernameInput, "jbjbjbjnjnjn", "1");
                 getFragmentManager().beginTransaction().replace(R.id.fragment_frame_main,
                         new SetPasscodeFragment(usernameInput)).commit();
 //                progressBarLogin.setVisibility(View.VISIBLE);

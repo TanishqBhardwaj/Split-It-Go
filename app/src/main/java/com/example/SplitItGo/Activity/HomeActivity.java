@@ -1,22 +1,17 @@
 package com.example.SplitItGo.Activity;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import com.example.SplitItGo.Fragment.ActivityFragment;
 import com.example.SplitItGo.Fragment.GroupsFragment;
 import com.example.SplitItGo.Fragment.HomeFragment;
+import com.example.SplitItGo.Fragment.PasscodeFragment;
 import com.example.SplitItGo.Utils.PreferenceUtils;
 import com.example.SplitItGo.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,10 +38,17 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if(savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new HomeFragment()).commit();
-        }
-            pref = new PreferenceUtils(getApplicationContext());
+        pref = new PreferenceUtils(getApplicationContext());
+
+//        if(pref.checkLogin()) {
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new PasscodeFragment()).commit();
+//        }
+//        else {
+            if(savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame_home, new HomeFragment()).commit();
+            }
+//        }
+
             mNavigationView = findViewById(R.id.navigation_view);
             mDrawerLayout = findViewById(R.id.drawer_layout);
             toolbar = findViewById(R.id.toolbar);

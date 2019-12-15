@@ -1,88 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.SplitItGo.Fragment.PasscodeFragment">
+    android:background="#0E014F"
+    tools:context="com.example.SplitItGo.Fragment.SetPasscodeFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="200dp"
-        android:ems="10"
-        android:maxLength="1"
-        android:gravity="center"
-        android:inputType="numberPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:maxLength="1"
-        android:gravity="center"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/editText1"
-        app:layout_constraintStart_toEndOf="@+id/editText1"
-        app:layout_constraintTop_toTopOf="@+id/editText1" />
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:maxLength="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSetPinCode" />
 
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:maxLength="1"
-        android:gravity="center"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/editText2"
-        app:layout_constraintStart_toEndOf="@+id/editText2"
-        app:layout_constraintTop_toTopOf="@+id/editText2" />
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:maxLength="1"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                app:layout_constraintBottom_toBottomOf="@+id/editText1"
+                app:layout_constraintStart_toEndOf="@+id/editText1"
+                app:layout_constraintTop_toTopOf="@+id/editText1" />
 
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:maxLength="1"
-        android:gravity="center"
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toBottomOf="@+id/editText3"
-        app:layout_constraintStart_toEndOf="@+id/editText3"
-        app:layout_constraintTop_toTopOf="@+id/editText3" />
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:maxLength="1"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                app:layout_constraintBottom_toBottomOf="@+id/editText2"
+                app:layout_constraintStart_toEndOf="@+id/editText2"
+                app:layout_constraintTop_toTopOf="@+id/editText2" />
 
-    <ImageView
-        android:id="@+id/imageViewStartPasscode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="?android:borderlessButtonStyle"
-        android:elevation="2dp"
-        android:src="@drawable/path"
-        android:translationX="70dp"
-        android:translationY="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <EditText
+                android:id="@+id/editText4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:ems="10"
+                android:maxLength="1"
+                android:elevation="1dp"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                app:layout_constraintBottom_toBottomOf="@+id/editText3"
+                app:layout_constraintStart_toEndOf="@+id/editText3"
+                app:layout_constraintTop_toTopOf="@+id/editText3" />
 
-    <TextView
-        android:id="@+id/textViewStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start"
-        android:elevation="3dp"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:translationX="70dp"
-        android:translationY="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageViewStartPasscode"
-        app:layout_constraintTop_toTopOf="@+id/imageViewStartPasscode" />
+            <ImageView
+                android:id="@+id/imageViewStartPasscode"
+                style="?android:borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:elevation="2dp"
+                android:src="@drawable/path"
+                android:translationX="70dp"
+                android:translationY="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText1" />
+
+            <TextView
+                android:id="@+id/textViewStartPasscode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start"
+                android:elevation="3dp"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:translationX="70dp"
+                android:translationY="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imageViewStartPasscode"
+                app:layout_constraintTop_toTopOf="@+id/imageViewStartPasscode" />
+
+            <ImageView
+                android:id="@+id/imageViewUpperStarsPasscode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:translationY="-60dp"
+                android:src="@drawable/stars"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageViewLowerStarsPasscode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/stars_footer"
+                android:translationY="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="200dp"
+                android:text="Welcome back,"
+                android:textColor="#A7A7A7"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewUsernamePasscode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
+
+            <TextView
+                android:id="@+id/textViewSetPinCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="64dp"
+                android:textSize="20sp"
+                android:textColor="#A7A7A7"
+                android:text="Enter PIN Code"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewUsernamePasscode" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
